@@ -1,3 +1,5 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import java.util.ArrayList;
 
@@ -5,10 +7,10 @@ public class Student {
 
     private String firstName, lastName;
     private int studentNum;
-    private ArrayList<String> activities;
+    private ObservableList<String> activities = FXCollections.observableArrayList();
     private Image studentPic;
 
-    public Student(String firstName, String lastName, int studentNum, ArrayList<String> activities, Image studentPic){
+    public Student(String firstName, String lastName, int studentNum){
         setActivities();
         setStudentPic();
         setFirstName(firstName);
@@ -54,8 +56,8 @@ public class Student {
             throw new IllegalArgumentException("Last name must have more than one character.");
     }
 
-    public int getStudentNum() {
-        return studentNum;
+    public String getStudentNum() {
+        return String.format("%d", studentNum);
     }
 
     /**
@@ -70,14 +72,13 @@ public class Student {
             throw new IllegalArgumentException("Student Number must be between 100000 and 9999999");
     }
 
-    public ArrayList<String> getActivities() {
+    public ObservableList<String> getActivities() {
         return activities;
     }
 
     public void setActivities() {
-        activities = new ArrayList<>();
         activities.add("Gaming");
-        activities.add("Hiking");
+        activities.add("Reading");
         activities.add("Coding");
     }
 
@@ -86,7 +87,7 @@ public class Student {
     }
 
     public void setStudentPic() {
-        Image studentPic = new Image("./img/studentpic.jpg");
+        studentPic = new Image("./img/studentpic.jpg");
     }
 
     /**
