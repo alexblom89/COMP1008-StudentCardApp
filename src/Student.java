@@ -1,9 +1,16 @@
+import javafx.scene.image.Image;
+import java.util.ArrayList;
+
 public class Student {
 
     private String firstName, lastName;
     private int studentNum;
+    private ArrayList<String> activities;
+    private Image studentPic;
 
-    public Student (String firstName, String lastName, int studentNum){
+    public Student(String firstName, String lastName, int studentNum, ArrayList<String> activities, Image studentPic){
+        setActivities();
+        setStudentPic();
         setFirstName(firstName);
         setLastName(lastName);
         setStudentNum(studentNum);
@@ -61,6 +68,25 @@ public class Student {
             this.studentNum = studentNum;
         else
             throw new IllegalArgumentException("Student Number must be between 100000 and 9999999");
+    }
+
+    public ArrayList<String> getActivities() {
+        return activities;
+    }
+
+    public void setActivities() {
+        activities = new ArrayList<>();
+        activities.add("Gaming");
+        activities.add("Hiking");
+        activities.add("Coding");
+    }
+
+    public Image getStudentPic() {
+        return studentPic;
+    }
+
+    public void setStudentPic() {
+        Image studentPic = new Image("./img/studentpic.jpg");
     }
 
     /**

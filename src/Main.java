@@ -7,8 +7,10 @@ import javafx.stage.Stage;
 //Begin JavaFX integration.
 public class Main extends Application {
     public static void main (String[] args){
-        Student student = new Student("Alex","Blom",867295);
+        Student student = new Student("Alex","Blom",867295, , studentPic);
         System.out.println(student);
+
+        Student.setActivities();
 
         launch(args);
     }
