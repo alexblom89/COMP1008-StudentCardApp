@@ -5,13 +5,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class StudentViewController implements Initializable {
 
     private Student student;
-    private ArrayList<String> activities;
     @FXML private ImageView studentImageView;
     @FXML private Label firstNameVar;
     @FXML private Label lastNameVar;
@@ -22,6 +20,7 @@ public class StudentViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         Student student = new Student("Alex", "Blom", 867295);
 
         studentImageView.setImage(student.getStudentPic());

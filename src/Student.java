@@ -1,15 +1,21 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
-import java.util.ArrayList;
 
 public class Student {
 
     private String firstName, lastName;
     private int studentNum;
-    private ObservableList<String> activities = FXCollections.observableArrayList();
+    private ObservableList<String> activities; //Allows direct population of ListView scene builder control.
     private Image studentPic;
 
+    /**
+     * This constructor sets the activity list, sets the student picture, and accepts arguments for firstName, lastName, and studentNum.
+     * Each property of the student object is instantiated through their respective set method.
+     * @param firstName
+     * @param lastName
+     * @param studentNum
+     */
     public Student(String firstName, String lastName, int studentNum){
         setActivities();
         setStudentPic();
@@ -18,6 +24,10 @@ public class Student {
         setStudentNum(studentNum);
     }
 
+    /**
+     * Returns student's first name.
+     * @return firstName String
+     */
     public String getFirstName() {
         return firstName;
     }
@@ -31,12 +41,16 @@ public class Student {
     public void setFirstName(String firstName) {
         firstName = firstName.substring(0,1).toUpperCase() + firstName.substring(1).toLowerCase();
 
-        if (firstName.length() > 1)
+        if (firstName.length() > 2)
             this.firstName = firstName;
         else
             throw new IllegalArgumentException("First name must have more than one character.");
     }
 
+    /**
+     * Returns student's last name.
+     * @return String lastName
+     */
     public String getLastName() {
         return lastName;
     }
@@ -50,12 +64,16 @@ public class Student {
     public void setLastName(String lastName) {
         lastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1).toLowerCase();
 
-        if (lastName.length() > 1)
+        if (lastName.length() > 2)
             this.lastName = lastName;
         else
             throw new IllegalArgumentException("Last name must have more than one character.");
     }
 
+    /**
+     * This method returns the student number formatted as a string.
+     * @return
+     */
     public String getStudentNum() {
         return String.format("%d", studentNum);
     }
@@ -66,26 +84,41 @@ public class Student {
      * @param studentNum
      */
     public void setStudentNum(int studentNum) {
-        if (studentNum >= 100000 && studentNum < 9999999)
+        if (studentNum >= 100000 && studentNum < 999999999)
             this.studentNum = studentNum;
         else
-            throw new IllegalArgumentException("Student Number must be between 100000 and 9999999");
+            throw new IllegalArgumentException("Student Number must be between 100000 and 999999999");
     }
 
+    /**
+     * returns the list of activities.
+     * @return ObservableList activities
+     */
     public ObservableList<String> getActivities() {
         return activities;
     }
 
+    /**
+     * This method adds activities to the ObservableList (ArrayList).
+     */
     public void setActivities() {
+        activities = FXCollections.observableArrayList();
         activities.add("Gaming");
         activities.add("Reading");
         activities.add("Coding");
     }
 
+    /**
+     * This method returns the image stored in studentPic Image variable
+     * @return Image studentPic
+     */
     public Image getStudentPic() {
         return studentPic;
     }
 
+    /**
+     * Sets the student picture to a new Image object located at the source indicated.
+     */
     public void setStudentPic() {
         studentPic = new Image("./img/studentpic.jpg");
     }
