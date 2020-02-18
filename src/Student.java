@@ -41,7 +41,7 @@ public class Student {
     public void setFirstName(String firstName) {
         firstName = firstName.substring(0,1).toUpperCase() + firstName.substring(1).toLowerCase();
 
-        if (firstName.length() > 2)
+        if (firstName.length() >= 2)
             this.firstName = firstName;
         else
             throw new IllegalArgumentException("First name must have more than one character.");
@@ -64,7 +64,7 @@ public class Student {
     public void setLastName(String lastName) {
         lastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1).toLowerCase();
 
-        if (lastName.length() > 2)
+        if (lastName.length() >= 2)
             this.lastName = lastName;
         else
             throw new IllegalArgumentException("Last name must have more than one character.");
@@ -84,7 +84,7 @@ public class Student {
      * @param studentNum
      */
     public void setStudentNum(int studentNum) {
-        if (studentNum >= 100000 && studentNum < 999999999)
+        if (studentNum >= 100000 && studentNum <= 999999999)
             this.studentNum = studentNum;
         else
             throw new IllegalArgumentException("Student Number must be between 100000 and 999999999");
