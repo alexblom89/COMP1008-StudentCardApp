@@ -1,12 +1,15 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+
+import java.util.Scanner;
 
 public class Student {
 
     private String firstName, lastName;
     private int studentNum;
-    private ObservableList<String> activities; //Allows direct population of ListView scene builder control.
+    private static ObservableList<String> activities; //Allows direct population of ListView scene builder control.
     private Image studentPic;
 
     /**
@@ -17,7 +20,7 @@ public class Student {
      * @param studentNum
      */
     public Student(String firstName, String lastName, int studentNum){
-        setActivities();
+        setActivities(inputActivities());
         setStudentPic();
         setFirstName(firstName);
         setLastName(lastName);
@@ -94,20 +97,23 @@ public class Student {
      * returns the list of activities.
      * @return ObservableList activities
      */
-    public ObservableList<String> getActivities() {
+    public static ObservableList<String> getActivities() {
         return activities;
     }
 
     /**
      * This method adds activities to the ObservableList (ArrayList).
      */
-    public void setActivities() {
-        activities = FXCollections.observableArrayList();
-        activities.add("Gaming");
-        activities.add("Reading");
-        activities.add("Coding");
+    public static void setActivities(String activity) {
+
+        activities.add(activity);
     }
 
+    public String inputActivities(){
+        Scanner kb = new Scanner(System.in);
+        System.out.println("Please enter a favourite activity: ");
+        return kb.nextLine();
+    }
     /**
      * This method returns the image stored in studentPic Image variable
      * @return Image studentPic

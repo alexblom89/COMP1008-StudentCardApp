@@ -31,6 +31,6 @@ public class StudentViewController implements Initializable {
 
         studentNumVar.setText(student.getStudentNum());
 
-        favActivitiesListView.setItems(student.getActivities());
+        favActivitiesListView.setItems(Student.getActivities());
     }
 }
