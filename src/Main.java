@@ -16,10 +16,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("StudentView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("NewStudentView.fxml"));
         Scene scene = new Scene(root);
 
-        stage.setTitle("Student Card");
+        stage.setTitle("Create New Student");
         stage.setScene(scene);
         stage.show();
     }

@@ -31,6 +31,7 @@ public class StudentViewController implements Initializable {
 
         studentNumVar.setText(student.getStudentNum());
 
-        favActivitiesListView.setItems(Student.getActivities());
+        //This line is to add the observable list to the view, however observable list was not working so it was converted to arraylist
+        //favActivitiesListView.setItems(Student.getActivities());
     }
 }

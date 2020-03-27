@@ -3,13 +3,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Student {
 
     private String firstName, lastName;
     private int studentNum;
-    private static ObservableList<String> activities; //Allows direct population of ListView scene builder control.
+    private ArrayList<String> activities = new ArrayList<>();
     private Image studentPic;
 
     /**
@@ -20,7 +21,6 @@ public class Student {
      * @param studentNum
      */
     public Student(String firstName, String lastName, int studentNum){
-        setActivities(inputActivities());
         setStudentPic();
         setFirstName(firstName);
         setLastName(lastName);
@@ -69,6 +69,9 @@ public class Student {
 
         if (lastName.length() >= 2)
             this.lastName = lastName;
+        else if(lastName.isEmpty()){
+            throw new IllegalArgumentException("Last name field cannot be empty.");
+        }
         else
             throw new IllegalArgumentException("Last name must have more than one character.");
     }
@@ -97,23 +100,24 @@ public class Student {
      * returns the list of activities.
      * @return ObservableList activities
      */
-    public static ObservableList<String> getActivities() {
+    public ArrayList getActivities() {
         return activities;
     }
 
     /**
      * This method adds activities to the ObservableList (ArrayList).
      */
-    public static void setActivities(String activity) {
+    public void setActivities(String activity) {
 
         activities.add(activity);
     }
 
-    public String inputActivities(){
-        Scanner kb = new Scanner(System.in);
-        System.out.println("Please enter a favourite activity: ");
-        return kb.nextLine();
-    }
+//    public String inputActivities(){
+//        Scanner kb = new Scanner(System.in);
+//        System.out.println("Please enter a favourite activity: ");
+//        return kb.nextLine();
+//    }
+
     /**
      * This method returns the image stored in studentPic Image variable
      * @return Image studentPic
