@@ -3,6 +3,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,6 +13,7 @@ public class Student {
     private int studentNum;
     private ArrayList<String> activities = new ArrayList<>();
     private Image studentPic;
+    private LocalDate birthday;
 
     /**
      * This constructor sets the activity list, sets the student picture, and accepts arguments for firstName, lastName, and studentNum.
@@ -25,6 +27,10 @@ public class Student {
         setFirstName(firstName);
         setLastName(lastName);
         setStudentNum(studentNum);
+    }
+
+    public void setBirthday(LocalDate date) {
+        this.birthday = date;
     }
 
     /**

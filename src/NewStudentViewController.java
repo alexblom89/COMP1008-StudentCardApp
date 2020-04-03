@@ -1,8 +1,12 @@
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -51,6 +55,7 @@ public class NewStudentViewController {
             studentNumberTextField.clear();
             System.out.println(student);
             addActivities(student);
+            addBirthday(student);
         }
         catch(IllegalArgumentException e){
             errorLabel.setText(e.getMessage());
@@ -104,5 +109,17 @@ public class NewStudentViewController {
         //Uses the join() method to display ArrayList elements.
         String joined = String.join(", ", interests);
         System.out.println("Interests: " + joined + ".");
+
+
     }
+
+    private void addBirthday(Student student){
+
+        final DatePicker datePicker = new DatePicker();
+        LocalDate date = datePicker.getValue();
+        student.setBirthday(date);
+        System.out.println("Birthday: " + date);
+    }
+
+
 }
