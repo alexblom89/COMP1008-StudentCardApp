@@ -1,12 +1,20 @@
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -24,6 +32,9 @@ public class NewStudentViewController {
     @FXML private CheckBox photographyCheckbox;
     @FXML private CheckBox gamingCheckbox;
     @FXML private Label errorLabel;
+    @FXML private Label ageLabel;
+    @FXML private DatePicker birthdayDatePicker;
+    @FXML private ImageView imageView;
 
 
     /**
@@ -34,33 +45,52 @@ public class NewStudentViewController {
      * display an error.
      */
     public void submitButtonPushed(){
-        try{
+        try {
             //Check if fields are empty, throw error if they are.
-            if(firstNameTextField == null || firstNameTextField.getText().trim().isEmpty()){
+            if (firstNameTextField == null || firstNameTextField.getText().trim().isEmpty()) {
                 throw new IllegalArgumentException("First name field cannot be empty.");
             }
-            else if(lastNameTextField == null || lastNameTextField.getText().trim().isEmpty()){
-                throw new IllegalArgumentException(("Last name field cannot be empty"));
-            }
-            else if(studentNumberTextField == null || studentNumberTextField.getText().trim().isEmpty()){
-                throw new IllegalArgumentException("Student Number field cannot be empty.");
-            }
+        }
+        catch(IllegalArgumentException e){
+            errorLabel.setText(e.getMessage());
+            return;
+        }
 
-            int studentNum = Integer.parseInt(studentNumberTextField.getText());
+        try {
+            if (lastNameTextField == null || lastNameTextField.getText().trim().isEmpty()) {
+                throw new IllegalArgumentException("Last name field cannot be empty.");
+            }
+        }
+        catch(IllegalArgumentException e){
+            errorLabel.setText(e.getMessage());
+            return;
+        }
 
-            Student student = new Student(firstNameTextField.getText(), lastNameTextField.getText(), studentNum);
-            // Clear all text fields
-            firstNameTextField.clear();
-            lastNameTextField.clear();
-            studentNumberTextField.clear();
-            System.out.println(student);
+        try {
+            if (birthdayDatePicker.getValue() == null){
+                throw new IllegalArgumentException("Birthday cannot be empty.");
+            }
+        }
+        catch(IllegalArgumentException e){
+            errorLabel.setText(e.getMessage());
+            return;
+        }
+
+        try {
+            LocalDate birthday = birthdayDatePicker.getValue();
+
+            Student student = new Student(firstNameTextField.getText(), lastNameTextField.getText(), birthday);
+
+            studentNumberTextField.setText(student.getStudentNum());
+
+
+            System.out.printf("%s %s Student Number: %s\n", student.getFirstName(), student.getLastName(), student.getStudentNum());
+            System.out.println("Birthday: " + birthday);
             addActivities(student);
-            addBirthday(student);
         }
         catch(IllegalArgumentException e){
             errorLabel.setText(e.getMessage());
         }
-
     }
 
     /**
@@ -113,13 +143,66 @@ public class NewStudentViewController {
 
     }
 
-    private void addBirthday(Student student){
+    /**
+     * This method calculates the student's age and displays it in a label on the GUI.
+     */
+   @FXML private void getAge(){
+        LocalDate birthday = birthdayDatePicker.getValue();
 
-        final DatePicker datePicker = new DatePicker();
-        LocalDate date = datePicker.getValue();
-        student.setBirthday(date);
-        System.out.println("Birthday: " + date);
+        //calculate age
+        int age = Period.between(birthday, LocalDate.now()).getYears();
+
+        //display age variable in age label
+        ageLabel.setText("Age: " + age);
     }
 
+    /**
+     * This method fills the textboxes and selects checkboxes with default information.
+     */
+    @FXML private void loadDefaultStudent(){
+       firstNameTextField.setText("Alex");
+       lastNameTextField.setText("Blom");
+       birthdayDatePicker.setValue(LocalDate.of(1989, 10, 4));
+       readingCheckbox.setSelected(true);
+       codingCheckbox.setSelected(true);
+       gamingCheckbox.setSelected(true);
+    }
 
+    /**
+     * This method opens a file chooser dialog box when the user clicks the Choose Image button. This file chooser is configured to
+     * open the user's Pictures directory by default, and filter for .jpg and .png files. When an image is selected, this image
+     * fills the ImageView object in the GUI.
+     * @param event
+     */
+    @FXML private void chooseImageButtonPushed(ActionEvent event){
+
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+        FileChooser fileChooser = new FileChooser(); // create new fileChooser object
+        fileChooser.setTitle("Choose Image");
+
+        // filter for .jpg and .png
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");
+        fileChooser.getExtensionFilters().add(imageFilter);
+
+
+        File imageFile = fileChooser.showOpenDialog(stage); // open file chooser dialog box
+
+        // set the default directory
+        String userDirectoryString = System.getProperty("user.home") + "\\Pictures";
+        File userDirectory = new File(userDirectoryString);
+
+        // confirm that the system can reach the directory
+        if(!userDirectory.canRead()){
+            userDirectory = new File(System.getProperty("user.home"));
+        }
+
+        // set the FileChooser to start with userDirectory
+        fileChooser.setInitialDirectory(userDirectory);
+
+        if(imageFile != null && imageFile.isFile()){
+//            System.out.println(imageFile.getPath());
+            imageView.setImage(new Image(imageFile.toURI().toString()));
+        }
+    }
 }

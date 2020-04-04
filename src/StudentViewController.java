@@ -21,7 +21,7 @@ public class StudentViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Student student = new Student("Alex", "Blom", 867295);
+        //Student student = new Student("Alex", "Blom", 867295);
 
         studentImageView.setImage(student.getStudentPic());
 
@@ -29,7 +29,7 @@ public class StudentViewController implements Initializable {
 
         lastNameVar.setText(student.getLastName());
 
-        studentNumVar.setText(student.getStudentNum());
+//        studentNumVar.setText(student.getStudentNum());
 
         //This line is to add the observable list to the view, however observable list was not working so it was converted to arraylist
         //favActivitiesListView.setItems(Student.getActivities());

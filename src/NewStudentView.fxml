@@ -15,7 +15,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewStudentViewController">
    <children>
-      <ImageView fitHeight="310.0" fitWidth="310.0" layoutX="368.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imageView" fitHeight="310.0" fitWidth="310.0" layoutX="368.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/avatar.png" />
          </image>
@@ -59,16 +59,21 @@
                         <Insets bottom="20.0" left="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="studentNumberTextField" prefHeight="26.0" prefWidth="200.0" />
+                  <TextField fx:id="studentNumberTextField" editable="false" prefHeight="26.0" prefWidth="200.0" />
                </children>
             </HBox>
-            <HBox prefHeight="66.0" prefWidth="376.0">
+            <HBox prefHeight="38.0" prefWidth="376.0">
                <children>
                   <Label fx:id="birthdayLabel" alignment="CENTER" prefHeight="26.0" prefWidth="120.0" text="Birthday:" />
-                  <DatePicker fx:id="birthdayDatePicker" prefHeight="26.0" prefWidth="200.0" />
+                  <DatePicker fx:id="birthdayDatePicker" onAction="#getAge" prefHeight="26.0" prefWidth="129.0" />
+                  <Label fx:id="ageLabel" alignment="CENTER" prefHeight="26.0" prefWidth="54.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
             </HBox>
-            <HBox prefHeight="59.0" prefWidth="376.0" />
+            <HBox alignment="CENTER" prefHeight="34.0" prefWidth="376.0" />
             <HBox prefHeight="102.0" prefWidth="429.0">
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
@@ -110,6 +115,7 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="chooseImageButton" layoutX="477.0" layoutY="351.0" mnemonicParsing="false" text="Choose Image" />
+      <Button fx:id="chooseImageButton" layoutX="477.0" layoutY="351.0" mnemonicParsing="false" onAction="#chooseImageButtonPushed" text="Choose Image" />
+      <Button layoutX="473.0" layoutY="393.0" mnemonicParsing="false" onAction="#loadDefaultStudent" text="Default Student" />
    </children>
 </AnchorPane>

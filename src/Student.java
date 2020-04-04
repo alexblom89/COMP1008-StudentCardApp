@@ -1,16 +1,13 @@
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Student {
 
     private String firstName, lastName;
-    private int studentNum;
+    public static String studentNum = "100000000";
     private ArrayList<String> activities = new ArrayList<>();
     private Image studentPic;
     private LocalDate birthday;
@@ -20,17 +17,27 @@ public class Student {
      * Each property of the student object is instantiated through their respective set method.
      * @param firstName
      * @param lastName
-     * @param studentNum
+     * @param birthday
      */
-    public Student(String firstName, String lastName, int studentNum){
+    public Student(String firstName, String lastName, LocalDate birthday){
         setStudentPic();
         setFirstName(firstName);
         setLastName(lastName);
-        setStudentNum(studentNum);
+        studentNum = getStudentNum();
+        setBirthday(birthday);
     }
 
-    public void setBirthday(LocalDate date) {
-        this.birthday = date;
+    public LocalDate getBirthday(){
+        return this.birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        int age = Period.between(birthday, LocalDate.now()).getYears();
+
+        if(age > 10 && age < 120)
+            this.birthday = birthday;
+        else
+            throw new IllegalArgumentException("Student must be between the ages of 10 and 120");
     }
 
     /**
@@ -50,8 +57,12 @@ public class Student {
     public void setFirstName(String firstName) {
         firstName = firstName.substring(0,1).toUpperCase() + firstName.substring(1).toLowerCase();
 
-        if (firstName.length() >= 2)
+        if (firstName.length() >= 2){
             this.firstName = firstName;
+        }
+        else if(firstName.isEmpty()){
+            throw new IllegalArgumentException("Last name field cannot be empty.");
+        }
         else
             throw new IllegalArgumentException("First name must have more than one character.");
     }
@@ -73,8 +84,9 @@ public class Student {
     public void setLastName(String lastName) {
         lastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1).toLowerCase();
 
-        if (lastName.length() >= 2)
+        if (lastName.length() >= 2){
             this.lastName = lastName;
+        }
         else if(lastName.isEmpty()){
             throw new IllegalArgumentException("Last name field cannot be empty.");
         }
@@ -83,24 +95,30 @@ public class Student {
     }
 
     /**
-     * This method returns the student number formatted as a string.
+     * This method parses the studentNum string into an int, increments that int, converts that int back into a string and returns it.
      * @return
      */
     public String getStudentNum() {
-        return String.format("%d", studentNum);
+
+        int sNum = Integer.parseInt(studentNum);
+
+        sNum++;
+
+        return Integer.toString(sNum);
+//        return String.format("%d", studentNum);
     }
 
-    /**
-     * Sets student number and validates that it is between 100000 and 9999999 (requirements stated lower bound of 1000000, but Lakehead
-     * student numbers can be 6 digits).
-     * @param studentNum
-     */
-    public void setStudentNum(int studentNum) {
-        if (studentNum >= 100000 && studentNum <= 999999999)
-            this.studentNum = studentNum;
-        else
-            throw new IllegalArgumentException("Student Number must be between 100000 and 999999999");
-    }
+//    /**
+//     * Sets student number and validates that it is between 100000 and 9999999 (requirements stated lower bound of 1000000, but Lakehead
+//     * student numbers can be 6 digits).
+//     * @param studentNum
+//     */
+//    public void setStudentNum(int studentNum) {
+//            if (studentNum >= 100000000 && studentNum <= 999999999)
+//                this.studentNum = studentNum;
+//            else
+//                throw new IllegalArgumentException("Student Number must be between 100000 and 999999999");
+//    }
 
     /**
      * returns the list of activities.
@@ -144,7 +162,7 @@ public class Student {
      * @return
      */
     public String toString() {
-        return String.format("%s %s student #: %d", firstName, lastName, studentNum);
+        return String.format("%s %s student #: %s", firstName, lastName, studentNum);
     }
 }
 
