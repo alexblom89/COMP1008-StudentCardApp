@@ -8,7 +8,7 @@ public class Student {
 
     private String firstName, lastName;
     public static String studentNum = "100000000";
-    private ArrayList<String> activities = new ArrayList<>();
+    private ArrayList activities = new ArrayList<>();
     private Image studentPic;
     private LocalDate birthday;
 
@@ -25,7 +25,9 @@ public class Student {
         setLastName(lastName);
         studentNum = getStudentNum();
         setBirthday(birthday);
+        activities = getActivities();
     }
+
 
     public LocalDate getBirthday(){
         return this.birthday;
@@ -60,9 +62,6 @@ public class Student {
         if (firstName.length() >= 2){
             this.firstName = firstName;
         }
-        else if(firstName.isEmpty()){
-            throw new IllegalArgumentException("Last name field cannot be empty.");
-        }
         else
             throw new IllegalArgumentException("First name must have more than one character.");
     }
@@ -86,9 +85,6 @@ public class Student {
 
         if (lastName.length() >= 2){
             this.lastName = lastName;
-        }
-        else if(lastName.isEmpty()){
-            throw new IllegalArgumentException("Last name field cannot be empty.");
         }
         else
             throw new IllegalArgumentException("Last name must have more than one character.");

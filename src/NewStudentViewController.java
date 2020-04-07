@@ -16,13 +16,14 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 public class NewStudentViewController {
 
     @FXML private TextField firstNameTextField;
     @FXML private TextField lastNameTextField;
-    @FXML private TextField studentNumberTextField;
     @FXML private CheckBox runningCheckbox;
     @FXML private CheckBox codingCheckbox;
     @FXML private CheckBox skiingCheckbox;
@@ -37,60 +38,49 @@ public class NewStudentViewController {
     @FXML private ImageView imageView;
 
 
-    /**
-     * This method grabs all information from the Create New Student textfields and creates a new student object from said information.
-     * The student number textfield text is parsed into an integer.
-     * addActivities method is called in order to add the activities to the student object and display.
-     * Method is wrapped in a try-catch block that displays an error message from the Student class should one of the set methods
-     * display an error.
-     */
     public void submitButtonPushed(){
-        try {
-            //Check if fields are empty, throw error if they are.
-            if (firstNameTextField == null || firstNameTextField.getText().trim().isEmpty()) {
-                throw new IllegalArgumentException("First name field cannot be empty.");
-            }
-        }
-        catch(IllegalArgumentException e){
-            errorLabel.setText(e.getMessage());
-            return;
-        }
-
-        try {
-            if (lastNameTextField == null || lastNameTextField.getText().trim().isEmpty()) {
-                throw new IllegalArgumentException("Last name field cannot be empty.");
-            }
-        }
-        catch(IllegalArgumentException e){
-            errorLabel.setText(e.getMessage());
-            return;
-        }
-
-        try {
-            if (birthdayDatePicker.getValue() == null){
-                throw new IllegalArgumentException("Birthday cannot be empty.");
-            }
-        }
-        catch(IllegalArgumentException e){
-            errorLabel.setText(e.getMessage());
-            return;
-        }
-
-        try {
+        if (readyToSubmit()){
             LocalDate birthday = birthdayDatePicker.getValue();
-
             Student student = new Student(firstNameTextField.getText(), lastNameTextField.getText(), birthday);
-
-            studentNumberTextField.setText(student.getStudentNum());
-
-
-            System.out.printf("%s %s Student Number: %s\n", student.getFirstName(), student.getLastName(), student.getStudentNum());
-            System.out.println("Birthday: " + birthday);
             addActivities(student);
         }
-        catch(IllegalArgumentException e){
-            errorLabel.setText(e.getMessage());
+    }
+
+    /**
+     * This method checks if the fields are empty, and if any of them are throws an error message. If they are not, it evaluates to true and allows
+     * submitButtonPushed method above to run and create a new Student object.
+     * @return
+     */
+    private boolean readyToSubmit() {
+
+        List<TextField> inputFields = Arrays.asList(firstNameTextField, lastNameTextField);
+
+        String error = "The following fields are empty: ";
+
+        for(TextField field: inputFields){
+            if(field.getText().isEmpty()){
+
+                error = String.format("%s %s,", error, field.getPromptText());
+            }
         }
+
+        if(error.equals("The following fields are empty: ")){
+            if(birthdayDatePicker.getValue() == null){
+                errorLabel.setText(error + birthdayDatePicker.getPromptText());
+                return false;
+            }
+            else{
+                errorLabel.setText("");
+                return true;
+            }
+        }
+        else if(birthdayDatePicker.getValue() == null){
+            errorLabel.setText(error + " " + birthdayDatePicker.getPromptText());
+            return false;
+        }
+        else
+            errorLabel.setText(error.substring(0, error.length()-1));
+            return false;
     }
 
     /**
