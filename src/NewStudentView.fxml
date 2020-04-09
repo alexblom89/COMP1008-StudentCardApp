@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewStudentViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewStudentViewController">
    <children>
       <ImageView fx:id="imageView" fitHeight="310.0" fitWidth="310.0" layoutX="368.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -39,7 +39,7 @@
                         <Insets bottom="20.0" left="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="firstNameTextField" prefHeight="26.0" prefWidth="200.0" />
+                  <TextField fx:id="firstNameTextField" prefHeight="26.0" prefWidth="200.0" promptText="First Name" />
                </children>
             </HBox>
             <HBox prefHeight="46.0" prefWidth="698.0">
@@ -49,7 +49,7 @@
                         <Insets bottom="20.0" left="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="lastNameTextField" prefHeight="26.0" prefWidth="200.0" />
+                  <TextField fx:id="lastNameTextField" prefHeight="26.0" prefWidth="200.0" promptText="Last Name" />
                </children>
             </HBox>
             <HBox prefHeight="38.0" prefWidth="698.0">
@@ -65,12 +65,13 @@
             <HBox prefHeight="38.0" prefWidth="376.0">
                <children>
                   <Label fx:id="birthdayLabel" alignment="CENTER" prefHeight="26.0" prefWidth="120.0" text="Birthday:" />
-                  <DatePicker fx:id="birthdayDatePicker" onAction="#getAge" prefHeight="26.0" prefWidth="129.0" />
-                  <Label fx:id="ageLabel" alignment="CENTER" prefHeight="26.0" prefWidth="54.0">
+                  <DatePicker fx:id="birthdayDatePicker" onAction="#getAge" prefHeight="26.0" prefWidth="129.0" promptText="Birthday" />
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="34.0" text="Age:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
+                  <Label fx:id="ageLabel" alignment="CENTER" prefHeight="30.0" prefWidth="28.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="34.0" prefWidth="376.0" />

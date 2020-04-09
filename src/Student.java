@@ -19,13 +19,13 @@ public class Student {
      * @param lastName
      * @param birthday
      */
-    public Student(String firstName, String lastName, LocalDate birthday){
-        setStudentPic();
+    public Student(String firstName, String lastName, LocalDate birthday, Image studentPic){
         setFirstName(firstName);
         setLastName(lastName);
-        studentNum = getStudentNum();
         setBirthday(birthday);
+        setStudentPic(studentPic);
         activities = getActivities();
+        studentNum = getStudentNum();
     }
 
 
@@ -149,8 +149,17 @@ public class Student {
     /**
      * Sets the student picture to a new Image object located at the source indicated.
      */
-    public void setStudentPic() {
-        studentPic = new Image("./img/studentpic.jpg");
+    public void setStudentPic(Image studentPic) {
+        this.studentPic = studentPic;
+    }
+
+
+    /**
+     * Calculates student's age.
+     * @return
+     */
+    public int getAge(){
+        return Period.between(birthday, LocalDate.now()).getYears();
     }
 
     /**

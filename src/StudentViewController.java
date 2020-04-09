@@ -1,37 +1,54 @@
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ResourceBundle;
 
-public class StudentViewController implements Initializable {
+public class StudentViewController {
 
-    private Student student;
     @FXML private ImageView studentImageView;
-    @FXML private Label firstNameVar;
-    @FXML private Label lastNameVar;
-    @FXML private Label studentNumVar;
-    @FXML private ListView favActivitiesListView;
+    @FXML private Label firstNameLabel;
+    @FXML private Label lastNameLabel;
+    @FXML private Label studentNumLabel;
+    @FXML private Label birthdayLabel;
+    @FXML private Label ageLabel;
+    @FXML private ListView activitiesListView;
+    @FXML private ListView<Student> studentListView;
+    @FXML private Button newStudentButton;
+    private Student selectedStudent;
 
 
+    public void newStudentButtonPushed(javafx.event.ActionEvent event) throws IOException {
+        Parent studentViewParent = FXMLLoader.load(getClass().getResource("NewStudentView.fxml"));
+        Scene studentViewScene = new Scene(studentViewParent);
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(studentViewScene);
+        window.show();
+    }
 
-        //Student student = new Student("Alex", "Blom", 867295);
-
-        studentImageView.setImage(student.getStudentPic());
-
-        firstNameVar.setText(student.getFirstName());
-
-        lastNameVar.setText(student.getLastName());
-
-//        studentNumVar.setText(student.getStudentNum());
-
-        //This line is to add the observable list to the view, however observable list was not working so it was converted to arraylist
-        //favActivitiesListView.setItems(Student.getActivities());
+    public void initData(Student student){
+        selectedStudent = student;
+        firstNameLabel.setText(selectedStudent.getFirstName());
+        lastNameLabel.setText(selectedStudent.getLastName());
+        studentNumLabel.setText(selectedStudent.getStudentNum());
+        birthdayLabel.setText(selectedStudent.getBirthday().toString());
+        ageLabel.setText(Integer.toString(selectedStudent.getAge()));
+        studentImageView.setImage(selectedStudent.getStudentPic());
+//        activitiesListView.getItems()
+        studentListView.getItems().addAll(Main.getStudents());
     }
 }

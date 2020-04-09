@@ -2,7 +2,10 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -13,6 +16,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -37,13 +41,36 @@ public class NewStudentViewController {
     @FXML private DatePicker birthdayDatePicker;
     @FXML private ImageView imageView;
 
-
-    public void submitButtonPushed(){
+    public void submitButtonPushed(ActionEvent event){
         if (readyToSubmit()){
             LocalDate birthday = birthdayDatePicker.getValue();
-            Student student = new Student(firstNameTextField.getText(), lastNameTextField.getText(), birthday);
-            addActivities(student);
+            try {
+                Student student = new Student(firstNameTextField.getText(), lastNameTextField.getText(), birthday, imageView.getImage());
+                addActivities(student);
+                changeSceneToStudentView(event, student);
+                Main.getStudents().add(student);
+            }
+            catch(IllegalArgumentException | IOException e){
+                errorLabel.setText(e.getMessage());
+                e.printStackTrace();
+            }
         }
+    }
+
+    public void changeSceneToStudentView(ActionEvent event, Student student) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("StudentView.fxml"));
+        Parent studentViewParent = loader.load();
+        Scene studentViewScene = new Scene(studentViewParent);
+
+        //access the controller and call methods
+        StudentViewController controller = loader.getController();
+        controller.initData(student);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setTitle("View Students");
+        window.setScene(studentViewScene);
+        window.show();
     }
 
     /**
@@ -135,15 +162,15 @@ public class NewStudentViewController {
 
     /**
      * This method calculates the student's age and displays it in a label on the GUI.
+     * It does not use student getAge() method as it is meant to be fired when date is picked, not when the submit button is pushed.
      */
    @FXML private void getAge(){
         LocalDate birthday = birthdayDatePicker.getValue();
-
         //calculate age
         int age = Period.between(birthday, LocalDate.now()).getYears();
 
         //display age variable in age label
-        ageLabel.setText("Age: " + age);
+        ageLabel.setText("" + age);
     }
 
     /**
@@ -195,4 +222,6 @@ public class NewStudentViewController {
             imageView.setImage(new Image(imageFile.toURI().toString()));
         }
     }
+
+
 }
