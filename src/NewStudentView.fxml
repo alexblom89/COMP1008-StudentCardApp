@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewStudentViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewStudentViewController">
    <children>
       <ImageView fx:id="imageView" fitHeight="310.0" fitWidth="310.0" layoutX="368.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -22,7 +22,6 @@
       </ImageView>
       <VBox prefHeight="566.0" prefWidth="376.0">
          <children>
-            <HBox prefHeight="57.0" prefWidth="698.0" />
             <HBox alignment="CENTER" prefHeight="67.0" prefWidth="698.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="160.0" text="Create New Student">
@@ -104,12 +103,12 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="360.0">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="376.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#submitButtonPushed" text="Submit" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="678.0">
+            <HBox alignment="CENTER" prefHeight="58.0" prefWidth="376.0">
                <children>
                   <Label fx:id="errorLabel" alignment="CENTER" textAlignment="CENTER" textFill="#dd0808" wrapText="true" />
                </children>

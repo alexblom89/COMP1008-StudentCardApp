@@ -1,21 +1,14 @@
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.ResourceBundle;
 
 public class StudentViewController {
 
@@ -27,10 +20,14 @@ public class StudentViewController {
     @FXML private Label ageLabel;
     @FXML private ListView activitiesListView;
     @FXML private ListView<Student> studentListView;
-    @FXML private Button newStudentButton;
     private Student selectedStudent;
 
-
+    /**
+     * When the Create New Student button is pressed in the Student View, the create new student view is opened (with blank text fields)
+     * to allow another student to be created.
+     * @param event
+     * @throws IOException
+     */
     public void newStudentButtonPushed(javafx.event.ActionEvent event) throws IOException {
         Parent studentViewParent = FXMLLoader.load(getClass().getResource("NewStudentView.fxml"));
         Scene studentViewScene = new Scene(studentViewParent);
@@ -40,15 +37,35 @@ public class StudentViewController {
         window.show();
     }
 
-    public void initData(Student student){
+    /**
+     * This method receives the student object from the create new student view, adds the new student to the studentListView
+     * for display in the student view, and updates the student view GUI.
+     * @param student
+     */
+    public void selectedStudent(Student student){
         selectedStudent = student;
+        studentListView.getItems().addAll(Main.getStudents());
+        updateGUI();
+    }
+
+    /**
+     * This method updates each field in the student view window with the student's information.
+     */
+    public void updateGUI(){
         firstNameLabel.setText(selectedStudent.getFirstName());
         lastNameLabel.setText(selectedStudent.getLastName());
         studentNumLabel.setText(selectedStudent.getStudentNum());
         birthdayLabel.setText(selectedStudent.getBirthday().toString());
         ageLabel.setText(Integer.toString(selectedStudent.getAge()));
         studentImageView.setImage(selectedStudent.getStudentPic());
-//        activitiesListView.getItems()
-        studentListView.getItems().addAll(Main.getStudents());
+        activitiesListView.getItems().setAll(selectedStudent.getActivities()); // uses setAll method to replace current activities in listview.
+    }
+
+    /**
+     * When a student is selected in the studentListView, this method calls the updateGUI method to update the gui with the correct information.
+     */
+    public void selectStudent(){
+        selectedStudent = studentListView.getSelectionModel().getSelectedItem();
+        updateGUI();
     }
 }

@@ -7,8 +7,9 @@ import java.util.ArrayList;
 public class Student {
 
     private String firstName, lastName;
-    public static String studentNum = "100000000";
-    private ArrayList activities = new ArrayList<>();
+    private String trueStudentNum;
+    public static int studentNum = 100000000;
+    private ArrayList activities = new ArrayList(); //IDE says this is redundant but removing it breaks the code.
     private Image studentPic;
     private LocalDate birthday;
 
@@ -25,14 +26,23 @@ public class Student {
         setBirthday(birthday);
         setStudentPic(studentPic);
         activities = getActivities();
-        studentNum = getStudentNum();
+        setStudentNum();
     }
 
-
+    /**
+     * Returns the student object's birthday.
+     * @return LocalDate birthday
+     */
     public LocalDate getBirthday(){
         return this.birthday;
     }
 
+    /**
+     * This method sets the student object's birthday and validates that it is more than 10 years old (and less than 120 years old).
+     * Instead of validated the year, this method uses Period.between to calculate the time between the birthday and the current date,
+     * ensuring that the student is over 10 years old to the day.
+     * @param birthday
+     */
     public void setBirthday(LocalDate birthday) {
         int age = Period.between(birthday, LocalDate.now()).getYears();
 
@@ -44,7 +54,7 @@ public class Student {
 
     /**
      * Returns student's first name.
-     * @return firstName String
+     * @return String firstName
      */
     public String getFirstName() {
         return firstName;
@@ -91,30 +101,20 @@ public class Student {
     }
 
     /**
-     * This method parses the studentNum string into an int, increments that int, converts that int back into a string and returns it.
-     * @return
+     * returns the String trueStudentNum, the variable for student number tied to each student object.
+     * @return String trueStudentNum
      */
-    public String getStudentNum() {
-
-        int sNum = Integer.parseInt(studentNum);
-
-        sNum++;
-
-        return Integer.toString(sNum);
-//        return String.format("%d", studentNum);
+    public String getStudentNum(){
+        return trueStudentNum;
     }
 
-//    /**
-//     * Sets student number and validates that it is between 100000 and 9999999 (requirements stated lower bound of 1000000, but Lakehead
-//     * student numbers can be 6 digits).
-//     * @param studentNum
-//     */
-//    public void setStudentNum(int studentNum) {
-//            if (studentNum >= 100000000 && studentNum <= 999999999)
-//                this.studentNum = studentNum;
-//            else
-//                throw new IllegalArgumentException("Student Number must be between 100000 and 999999999");
-//    }
+    /**
+     * This method increments studentNum global static variable, which is converted to a String and stored in this.trueStudentNum.
+     */
+    public void setStudentNum() {
+        studentNum++;
+        this.trueStudentNum = Integer.toString(studentNum);
+    }
 
     /**
      * returns the list of activities.
@@ -125,18 +125,12 @@ public class Student {
     }
 
     /**
-     * This method adds activities to the ObservableList (ArrayList).
+     * This method adds activities to the ArrayList.
      */
     public void setActivities(String activity) {
 
         activities.add(activity);
     }
-
-//    public String inputActivities(){
-//        Scanner kb = new Scanner(System.in);
-//        System.out.println("Please enter a favourite activity: ");
-//        return kb.nextLine();
-//    }
 
     /**
      * This method returns the image stored in studentPic Image variable
@@ -167,7 +161,7 @@ public class Student {
      * @return
      */
     public String toString() {
-        return String.format("%s %s student #: %s", firstName, lastName, studentNum);
+        return String.format("%s %s student #: %s", firstName, lastName, trueStudentNum);
     }
 }
 

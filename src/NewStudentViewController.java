@@ -1,8 +1,7 @@
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,17 +16,19 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class NewStudentViewController {
+public class NewStudentViewController implements Initializable {
 
     @FXML private TextField firstNameTextField;
     @FXML private TextField lastNameTextField;
+    @FXML private TextField studentNumberTextField;
     @FXML private CheckBox runningCheckbox;
     @FXML private CheckBox codingCheckbox;
     @FXML private CheckBox skiingCheckbox;
@@ -41,22 +42,43 @@ public class NewStudentViewController {
     @FXML private DatePicker birthdayDatePicker;
     @FXML private ImageView imageView;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Initialize student number textfield to contain the current student's number, without actually affecting the studentNum global static variable.
+        int studentNumInt = Student.studentNum + 1;
+        String studentNumString = Integer.toString(studentNumInt);
+        studentNumberTextField.setText(studentNumString);
+    }
+
+    /**
+     * When the submit button is pushed, the readyToSubmit method is called, and if this method is passed (returns true) the student object is created,
+     * the addActivities method is called to read the selected checkboxes and add the appropriate activities to the student object, the new student object
+     * is added to the student ArrayList (to be added to the studentListView), and the scene is changed to the student view scene, with the student object
+     * passed into this view for display in the GUI.
+     * @param event
+     */
     public void submitButtonPushed(ActionEvent event){
         if (readyToSubmit()){
             LocalDate birthday = birthdayDatePicker.getValue();
             try {
                 Student student = new Student(firstNameTextField.getText(), lastNameTextField.getText(), birthday, imageView.getImage());
                 addActivities(student);
-                changeSceneToStudentView(event, student);
                 Main.getStudents().add(student);
+                changeSceneToStudentView(event, student);
             }
             catch(IllegalArgumentException | IOException e){
                 errorLabel.setText(e.getMessage());
-                e.printStackTrace();
             }
         }
     }
 
+    /**
+     * This method changes the scene to the StudentView scene. It also passes the current student object to the scene, and calls a method
+     * in the Student View controller that updates the student view GUI.
+     * @param event
+     * @param student
+     * @throws IOException
+     */
     public void changeSceneToStudentView(ActionEvent event, Student student) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("StudentView.fxml"));
@@ -65,7 +87,7 @@ public class NewStudentViewController {
 
         //access the controller and call methods
         StudentViewController controller = loader.getController();
-        controller.initData(student);
+        controller.selectedStudent(student);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setTitle("View Students");
@@ -150,14 +172,6 @@ public class NewStudentViewController {
             activity = "Gaming";
             student.setActivities(activity);
         }
-
-        ArrayList interests = student.getActivities();
-
-        //Uses the join() method to display ArrayList elements.
-        String joined = String.join(", ", interests);
-        System.out.println("Interests: " + joined + ".");
-
-
     }
 
     /**
@@ -222,6 +236,7 @@ public class NewStudentViewController {
             imageView.setImage(new Image(imageFile.toURI().toString()));
         }
     }
+
 
 
 }
